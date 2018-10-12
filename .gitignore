@@ -1,0 +1,4 @@
+**/*.inst
+**/*.conf
+**/*.bin
+**/bin/*test*
