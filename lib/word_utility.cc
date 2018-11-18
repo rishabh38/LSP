@@ -48,12 +48,15 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 		return error_return_value;
 	}
 
+	matched_string.push_back (instWord[instWord_index]);
+	instWord_index++;
+
 	if ((i + 1 < confWordSize && !isdigit(confWord[i + 1]))
 			|| (i + 1 == confWordSize)){
 		unsigned virtInstSize = instWordSize;
 
 		if (confWord[i + 1] == '{')				//Will make below while loop
-			virtInstSize = instWord_index + 1;		//check and push only one char(digit)
+			virtInstSize = instWord_index;		//check and push only one char(digit)
 									//else checks till its size
 		while (instWord_index < virtInstSize && isdigit(instWord[instWord_index])){
 			matched_string.push_back(instWord[instWord_index]);
@@ -68,6 +71,7 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 
 		for ( ; conf_index < confWord.size() && isdigit(confWord[conf_index]); instWord_index++){
 			if(instWord_index >= instWordSize){
+				conf_index = anchor_index;
 				matched_string.append(tempMatch);
 				break;
 			}
@@ -86,8 +90,10 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 				matched_string.push_back(instWord[instWord_index]);
 			}
 		}
+		instWord_index = instWord_index - (conf_index - anchor_index);
 	}
 
+	instWord_index -= 1;
 	return make_pair(conf_string, matched_string);
 }
 
@@ -113,7 +119,7 @@ bool wordMatch (string confWord, string instWord, map<string, string> &inMap){
 		map<string, string> varMap;
 		bool goodGoing = true;
 
-		for (unsigned iA = 0, iB = 0; (iB < instWord.size() && iA < confWord.size()) ; iA++, iB++){
+		for (unsigned iA = 0, iB = 0; (iB < instWord.size() || iA < confWord.size()) ; iA++, iB++){
 			if ((iB >= instWord.size() && iA < confWord.size())
 					|| (iB < instWord.size() && iA >= confWord.size())){
 				dMap (varMap);
@@ -123,7 +129,6 @@ bool wordMatch (string confWord, string instWord, map<string, string> &inMap){
 			if (confWord[iA] != '{' && confWord[iA] != instWord[iB]){
 				dMap (varMap);
 				goodGoing = false;
-				cout << "CC 1" << endl;
 				break;
 			}
 			else if (confWord[iA] == '{'){

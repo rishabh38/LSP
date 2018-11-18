@@ -1,8 +1,3 @@
-/* TO DO:
- * create implementation file for this header,
- * move all functions containing loop in them.
- */
-
 #ifndef LSP_LIB_INSTRUCTURE_H
 #define LSP_LIB_INSTRUCTURE_H
 
