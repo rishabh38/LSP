@@ -30,7 +30,7 @@ string checkVarString (string theString, unsigned &index){
 
 
 pair<string, string> varMatch(string confWord, unsigned &i,
-															string instWord, unsigned &instWord_index){
+		string instWord, unsigned &instWord_index){
 	pair<string, string> error_return_value = make_pair("{}","{}");
 
 	string conf_string;
@@ -52,9 +52,9 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 			|| (i + 1 == confWordSize)){
 		unsigned virtInstSize = instWordSize;
 
-		if (confWord[i + 1] == '{')							//Will make below while loop
+		if (confWord[i + 1] == '{')				//Will make below while loop
 			virtInstSize = instWord_index + 1;		//check and push only one char(digit)
-																						//else checks till its size
+									//else checks till its size
 		while (instWord_index < virtInstSize && isdigit(instWord[instWord_index])){
 			matched_string.push_back(instWord[instWord_index]);
 			instWord_index++;
@@ -109,11 +109,6 @@ string num2bitString(string numString){
 }
 
 
-//*************************************CODE ABOVE NEEDS TO BE SHIFTED
-
-
-
-//TO BE MOVED TO SEPARATE HEADER FILE
 bool wordMatch (string confWord, string instWord, map<string, string> &inMap){
 		map<string, string> varMap;
 		bool goodGoing = true;
