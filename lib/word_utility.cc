@@ -1,6 +1,7 @@
 
 #include "word_utility.h"
 
+#include <cctype>
 #include <iostream>
 #include <map>
 #include <string>
@@ -116,34 +117,161 @@ string num2bitString(string numString){
 
 
 bool wordMatch (string confWord, string instWord, map<string, string> &inMap){
-		map<string, string> varMap;
-		bool goodGoing = true;
+	map<string, string> varMap;
+	bool goodGoing = true;
 
-		for (unsigned iA = 0, iB = 0; (iB < instWord.size() || iA < confWord.size()) ; iA++, iB++){
-			if ((iB >= instWord.size() && iA < confWord.size())
-					|| (iB < instWord.size() && iA >= confWord.size())){
+	for (unsigned iA = 0, iB = 0; (iB < instWord.size() || iA < confWord.size()) ; iA++, iB++){
+		if ((iB >= instWord.size() && iA < confWord.size())
+				|| (iB < instWord.size() && iA >= confWord.size())){
+			dMap (varMap);
+			goodGoing = false;
+			break;
+		}
+		if (confWord[iA] != '{' && confWord[iA] != instWord[iB]){
+			dMap (varMap);
+			goodGoing = false;
+			break;
+		}
+		else if (confWord[iA] == '{'){
+			pair<string, string> tempPair = varMatch (confWord, iA, instWord, iB);
+
+			if (tempPair == make_pair ((string)"{}", (string)"{}")){
 				dMap (varMap);
 				goodGoing = false;
 				break;
 			}
-			if (confWord[iA] != '{' && confWord[iA] != instWord[iB]){
-				dMap (varMap);
-				goodGoing = false;
-				break;
-			}
-			else if (confWord[iA] == '{'){
-				pair<string, string> tempPair = varMatch (confWord, iA, instWord, iB);
 
-				if (tempPair == make_pair ((string)"{}", (string)"{}")){
-					dMap (varMap);
-					goodGoing = false;
-					break;
-				}
+			varMap.insert (tempPair);
+		}
+	}
 
-				varMap.insert (tempPair);
-			}
+	inMap.insert (varMap.begin(), varMap.end());
+	return goodGoing;
+}
+
+int lookString4 (char validChar, string TheString, unsigned &index){
+	size_t strSize = TheString.size();
+
+	while (index < strSize){
+		if (TheString[index] == validChar)
+			return 1;
+		else if (!isspace(TheString[index]))
+			break;
+
+		index++;
+	}
+
+	return 0;
+}
+
+int lookString4Digit (string TheString, unsigned &index){
+	size_t strSize = TheString.size();
+
+	while (index < strSize){
+		if (TheString[index] - '0' >= 0 && TheString[index] - '0' <= 9)
+		       return 1;
+		else if (!isspace(TheString[index]))
+			break;
+		index++;
+	}
+
+	return 0;
+}	
+
+map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringFormat){
+	size_t strSize = bitStringFormat.size();
+	map<pair<unsigned, unsigned>, string> strData;
+
+	for (unsigned index = 0; index < strSize; index++){
+		bool goodGoing = 1;
+		size_t processedNumSize;
+		
+		goodGoing = lookString4 ('[', bitStringFormat, index);
+		goodGoing &= lookString4Digit (bitStringFormat, ++index);
+
+		if (!goodGoing){
+			strData.clear();
+			break;
 		}
 
-		inMap.insert (varMap.begin(), varMap.end());
-		return goodGoing;
+		unsigned number1;
+		number1 = stoull (bitStringFormat.substr (index), &processedNumSize);
+		index += processedNumSize;
+
+		goodGoing = lookString4 ('-', bitStringFormat, index);
+		goodGoing &= lookString4Digit (bitStringFormat, ++index);
+		
+		if (!goodGoing){
+			strData.clear();
+			break;
+		}
+
+		unsigned number2;
+		number2 = stoull (bitStringFormat.substr (index), &processedNumSize);
+		index += processedNumSize;
+
+		pair<unsigned, unsigned> range (number1, number2);
+
+		goodGoing = lookString4 (']', bitStringFormat, index);
+		goodGoing &= lookString4 (':', bitStringFormat, ++index);
+		
+		if (!goodGoing){
+			strData.clear();
+			break;
+		}
+
+		while (isspace(bitStringFormat[++index]))
+			continue;
+		
+		string rangeValue;
+		while (index < strSize && bitStringFormat[index] != ' ' && bitStringFormat[index] != '|')
+			rangeValue.push_back (bitStringFormat[index++]);
+
+		if (!rangeValue.size()){
+			strData.clear();
+			break;
+		}
+
+		strData.insert(make_pair(range, rangeValue));
+
+		if (!lookString4 ('|', bitStringFormat, index))
+			break;
+	}
+
+	return strData;
+
 }
+
+string stripBraces (string bitString){
+	size_t strSize = bitString.size();
+	string finalString;
+
+	if (strSize > 0 && bitString[0] != '[')
+		return bitString;
+
+	for (unsigned index = 1; index < strSize - 1; index++){
+		if ( bitString[index] != '0' && bitString[index] != '1'){
+			finalString =  bitString;
+			break;
+		}
+
+		finalString.push_back(bitString[index]);
+	}
+
+	if (strSize > 0 && bitString[strSize - 1] != ']')
+		finalString =  bitString;
+
+	return finalString;
+}
+
+bool isBitstring (string proposedBitString){
+	size_t strSize = proposedBitString.size();
+
+	for (unsigned index = 0; index < strSize; index++)
+		if (proposedBitString[index] != '0' && proposedBitString[index] != '1')
+			return 0;
+
+	return 1;
+}
+
+string generateBitString (string bitStringFormat, map<string, string> varMap){}
