@@ -62,7 +62,7 @@ class Word{
 		bool isitEnd();
 
 		//TEST FUNCTION
-		Word *getFirstChild();
+		Word *chooseChild();
 };
 
 

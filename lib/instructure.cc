@@ -7,7 +7,6 @@
 
 using namespace std;
 
-
 Word::Word(string wordofNode){
 	word = wordofNode;
 }
@@ -79,17 +78,31 @@ bool Word::isitEnd(){
 	return 0;
 }
 
-
-Word* Word::getFirstChild(){
+//TEST FUNCTION
+Word* Word::chooseChild(){
+	cout << "WORD: " << this->word << endl;
 	cout << "nextWordMap size :" << this->nextWordMap.size() << endl;
 	cout << endl;
 
 	auto temp = this->nextWordMap.begin();
-	if (++temp != this->nextWordMap.end()){
-		cout << temp->first << ": ";
-		return temp->second;
+	for (int i = 0; temp != this->nextWordMap.end(); i++){
+		cout << i << "> " << temp->first << endl;
+		temp++;
 	}
-	cout << (this->nextWordMap.begin())->first << ": ";
+	
+	cout << "choose: ";
+	int choice;
+	cin >> choice;
+
+	temp = this->nextWordMap.begin();	
+	for (int i = 0; temp != this->nextWordMap.end(); i++, temp++){
+		if (i == choice){
+			cout << "choosing " << temp->first << "\n" << endl;
+			return temp->second;
+		}
+
+	}
+
 	return (this->nextWordMap.begin())->second;
 }
 
@@ -137,7 +150,7 @@ int instructure::addInstruction(vector<string> stringSeq){
 
 
 string instructure::checkInstruction(vector<string> stringSeq){
-	if (stringSeq.size() < 2){
+	if (!stringSeq.size()){
 		cout << "Invalid instruction" << endl;
 		return "EII";
 	}
@@ -150,7 +163,7 @@ string instructure::checkInstruction(vector<string> stringSeq){
 
 		if (wordMatch (nextWord.first, stringSeq[0], temp)){
 			nodeBeingMatched = nextWord.second;
-
+			
 			varMap.insert (temp.begin(), temp.end());
 			break;
  	  }
@@ -160,6 +173,7 @@ string instructure::checkInstruction(vector<string> stringSeq){
 		if (!nodeBeingMatched)
 			break;
 
+		cout << nodeBeingMatched->giveWord() << " ";
 		nodeBeingMatched = nodeBeingMatched->look4word(stringSeq[i], varMap);
 	}
 
@@ -169,7 +183,7 @@ string instructure::checkInstruction(vector<string> stringSeq){
 				return "EII";
 	}
 
-		//	return getBitString (nodeBeingMatched->giveWord(), varMap);
+		//	return generateBitString (nodeBeingMatched->giveWord(), varMap);
   return nodeBeingMatched->giveWord();
 }
 
@@ -186,7 +200,7 @@ void instructure::testprintInst(){
 	cout << " ";
 
 	while(!WordIter->isitEnd()){
-		WordIter = WordIter->getFirstChild();
+		WordIter = WordIter->chooseChild();
 		WordIter->printWord();
 		cout << " ";
 	}
