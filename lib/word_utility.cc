@@ -274,4 +274,26 @@ bool isBitstring (string proposedBitString){
 	return 1;
 }
 
+
+/* string resizeBitString (string bitString, size_t newSize):
+ * converts a bitstring of different size into a string of 
+ * particular size by either truncating the string or by
+ * adding string of 0s at the beginning of the string.
+ * returns same string if the new size is same  as old size.
+ * */
+string resizeBitString (string bitString, size_t newSize){
+	size_t strSize = bitString.size();
+
+	if (strSize > newSize){
+		bitString = substr (strSize - newSize);
+	}
+	else if (strSize < newSize){
+		string temp (newSize - strSize, '0');
+		temp.append (bitString);
+		bitString = temp;
+	}
+
+	return bitString;
+}
+
 string generateBitString (string bitStringFormat, map<string, string> varMap){}
