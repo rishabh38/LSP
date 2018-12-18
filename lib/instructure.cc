@@ -78,34 +78,6 @@ bool Word::isitEnd(){
 	return 0;
 }
 
-//TEST FUNCTION
-Word* Word::chooseChild(){
-	cout << "WORD: " << this->word << endl;
-	cout << "nextWordMap size :" << this->nextWordMap.size() << endl;
-	cout << endl;
-
-	auto temp = this->nextWordMap.begin();
-	for (int i = 0; temp != this->nextWordMap.end(); i++){
-		cout << i << "> " << temp->first << endl;
-		temp++;
-	}
-	
-	cout << "choose: ";
-	int choice;
-	cin >> choice;
-
-	temp = this->nextWordMap.begin();	
-	for (int i = 0; temp != this->nextWordMap.end(); i++, temp++){
-		if (i == choice){
-			cout << "choosing " << temp->first << "\n" << endl;
-			return temp->second;
-		}
-
-	}
-
-	return (this->nextWordMap.begin())->second;
-}
-
 int instructure::addFirstWord(string firstWord){
 	auto ptrtoFirstWord = new Word(firstWord);
 
@@ -183,27 +155,6 @@ string instructure::checkInstruction(vector<string> stringSeq){
 				return "EII";
 	}
 
-		//	return generateBitString (nodeBeingMatched->giveWord(), varMap);
-  return nodeBeingMatched->giveWord();
+	return generateBitString (nodeBeingMatched->giveWord(), varMap);
 }
 
-
-//TEST FUNCTION
-void instructure::testprintInst(){
-	if (this->firstWordMap.begin() == this->firstWordMap.end())
-		return;
-
-	cout << "firstWordMap size: " << firstWordMap.size() << endl;
-
-	Word *WordIter = (this->firstWordMap.begin())->second;
-	WordIter->printWord();
-	cout << " ";
-
-	while(!WordIter->isitEnd()){
-		WordIter = WordIter->chooseChild();
-		WordIter->printWord();
-		cout << " ";
-	}
-
-	cout << endl;
-}
