@@ -242,36 +242,34 @@ map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringForm
 
 }
 
-string stripBraces (string bitString){
-	size_t strSize = bitString.size();
+bool isbitString (string proposedBitString){
+	size_t strSize = proposedBitString.size();
 	string finalString;
+	bool goodGoing = true;
+	if (!strSize)
+		goodGoing &= false;
 
-	if (strSize > 0 && bitString[0] != '[')
-		return bitString;
+	if (proposedBitString[0] != '[')
+		goodGoing &= false;
 
 	for (unsigned index = 1; index < strSize - 1; index++){
-		if ( bitString[index] != '0' && bitString[index] != '1'){
-			finalString =  bitString;
+		if ( proposedBitString[index] != '0' && proposedBitString[index] != '1'){
+			goodGoing &= false;
 			break;
 		}
 
-		finalString.push_back(bitString[index]);
 	}
 
-	if (strSize > 0 && bitString[strSize - 1] != ']')
-		finalString =  bitString;
+	if (propopsedBitString[strSize - 1] != ']')
+		goodGoing &= false;
 
-	return finalString;
+	return goodGoing;
 }
 
-bool isBitstring (string proposedBitString){
-	size_t strSize = proposedBitString.size();
+inline string srtipBraces (string bitString){
+	size_t strSize = bitString.size();
 
-	for (unsigned index = 0; index < strSize; index++)
-		if (proposedBitString[index] != '0' && proposedBitString[index] != '1')
-			return 0;
-
-	return 1;
+	return bitString.substr (1, strSize - 2);
 }
 
 
@@ -296,4 +294,6 @@ string resizeBitString (string bitString, size_t newSize){
 	return bitString;
 }
 
-string generateBitString (string bitStringFormat, map<string, string> varMap){}
+string generateBitString (string bitStringFormat, map<string, string> varMap){
+	
+}
