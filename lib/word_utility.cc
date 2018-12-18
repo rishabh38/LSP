@@ -260,13 +260,13 @@ bool isbitString (string proposedBitString){
 
 	}
 
-	if (propopsedBitString[strSize - 1] != ']')
+	if (proposedBitString[strSize - 1] != ']')
 		goodGoing &= false;
 
 	return goodGoing;
 }
 
-inline string srtipBraces (string bitString){
+inline string stripBraces (string bitString){
 	size_t strSize = bitString.size();
 
 	return bitString.substr (1, strSize - 2);
@@ -281,9 +281,9 @@ inline string srtipBraces (string bitString){
  * */
 string resizeBitString (string bitString, size_t newSize){
 	size_t strSize = bitString.size();
-
+	
 	if (strSize > newSize){
-		bitString = substr (strSize - newSize);
+		bitString = bitString.substr (strSize - newSize);
 	}
 	else if (strSize < newSize){
 		string temp (newSize - strSize, '0');
@@ -295,5 +295,43 @@ string resizeBitString (string bitString, size_t newSize){
 }
 
 string generateBitString (string bitStringFormat, map<string, string> varMap){
-	
+	string icode;
+	map<pair<unsigned, unsigned>, string> format = parseBitStringFormat (bitStringFormat);
+
+	for (auto cell : format){
+		string string2copy;
+
+		if (cell.first.first >= cell.first.second){
+			icode.clear();
+			break;
+		}
+
+		if (cell.first.second >= icode.size())
+			icode.resize(cell.first.second + 1, '0');
+
+		if (isbitString(cell.second)){
+			string2copy = stripBraces (cell.second);
+		}
+		else {
+			if (!varMap[cell.second].size()){
+				icode.clear();
+				break;
+			}
+
+			string2copy = num2bitString (varMap[cell.second]);
+		}
+
+
+		string2copy = resizeBitString (string2copy, 
+				cell.first.second - cell.first.first + 1);
+
+		for (unsigned index = cell.first.first, i2 = 0;
+				index <= cell.first.second && i2 < string2copy.size();
+				index++, i2++){
+			icode[index] = string2copy[i2];
+		}
+
+	}
+
+	return icode;
 }
