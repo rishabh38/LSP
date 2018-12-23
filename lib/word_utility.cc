@@ -7,18 +7,22 @@
 #include <string>
 #include <vector>
 
+#define ENCLOSING_SYMBOL_LEFT '{'
+#define ENCLOSING_SYMBOL_RIGHT '}'
+#define ENCLOSING_SYMBOL (string)"{}"
+
 using namespace std;
 
 string checkVarString (string theString, unsigned &index){
 	string varString;
 	size_t stringSize = theString.size();
 
-	if (theString[index] != '{')
+	if (theString[index] != ENCLOSING_SYMBOL_LEFT)
 		return varString;
 
 	string tempString;
 	for (index += 1; index < stringSize; index++){
-		if(theString[index] == '}'){
+		if(theString[index] == ENCLOSING_SYMBOL_RIGHT){
 			varString = tempString;
 			break;
 		}
@@ -32,7 +36,7 @@ string checkVarString (string theString, unsigned &index){
 
 pair<string, string> varMatch(string confWord, unsigned &i,
 		string instWord, unsigned &instWord_index){
-	pair<string, string> error_return_value = make_pair("{}","{}");
+	pair<string, string> error_return_value = make_pair(ENCLOSING_SYMBOL,ENCLOSING_SYMBOL);
 
 	string conf_string;
 	string matched_string;
@@ -56,9 +60,10 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 			|| (i + 1 == confWordSize)){
 		unsigned virtInstSize = instWordSize;
 
-		if (confWord[i + 1] == '{')				//Will make below while loop
+		if (confWord[i + 1] == ENCLOSING_SYMBOL_LEFT)	//Will make below while loop
 			virtInstSize = instWord_index;		//check and push only one char(digit)
-									//else checks till its size
+								//else checks till its size
+								
 		while (instWord_index < virtInstSize && isdigit(instWord[instWord_index])){
 			matched_string.push_back(instWord[instWord_index]);
 			instWord_index++;
@@ -76,7 +81,7 @@ pair<string, string> varMatch(string confWord, unsigned &i,
 				matched_string.append(tempMatch);
 				break;
 			}
-			if(!isdigit(instWord[instWord_index])){
+			if(!isdigit(instWord[instWord_index])){ 
 				matched_string.clear();
 				break;
 			}
