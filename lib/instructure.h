@@ -34,78 +34,78 @@ using namespace std;
  *
  * */
 class Word{
-	private:
-		string word;
-		map <string, Word*> nextWordMap;
+  private:
+    string word;
+    map <string, Word*> nextWordMap;
 
-	public:
-		Word(string wordofNode);
+  public:
+    Word(string wordofNode);
 
-		//TEST FUNCTION
-		void printWord();
+    //TEST FUNCTION
+    void printWord();
 
-		int addNextWord(string childWord);
+    int addNextWord(string childWord);
 
-		int addNextWord(string MapChildWord, string childWord);
+    int addNextWord(string MapChildWord, string childWord);
 
-		Word *giveNextWord(string wordtoLook);
+    Word *giveNextWord(string wordtoLook);
 
-		Word *addWord(string wordtoAdd);
+    Word *addWord(string wordtoAdd);
 
-		bool ischildPresent(string wordtoLook);
+    bool ischildPresent(string wordtoLook);
 
-		string giveWord();
+    string giveWord();
 
-		Word *look4word (string word, map<string, string> &varMap);
+    Word *look4word (string word, map<string, string> &varMap);
 
-		//TEST FUNCTION
-		bool isitEnd();
+    //TEST FUNCTION
+    bool isitEnd();
 
-		//TEST FUNCTION
-		Word *chooseChild();
+    //TEST FUNCTION
+    Word *chooseChild();
 };
 
 
 
 class instructure{
-	private:
-		map<string, Word*> firstWordMap;
-	public:
-		/* addFirstWord(string firstWord):
-		 * takes firstWord, creates new child Word with word = firstWord.
-		 * returns True if there wasn't a child with that word,
-		 * else returns False.
-		 * */
-		int addFirstWord(string firstWord);
+  private:
+    map<string, Word*> firstWordMap;
+  public:
+    /* addFirstWord(string firstWord):
+     * takes firstWord, creates new child Word with word = firstWord.
+     * returns True if there wasn't a child with that word,
+     * else returns False.
+     * */
+    int addFirstWord(string firstWord);
 
-		/* giveFirstWord(string wordtoLook):
-		 * takes string wordtoLook, if there is a child
-		 * Word of the root containing wordtoLook
-		 * word in it, then returns the locatin of
-		 * the child Word, else returns NULL.
-		 * */
-		Word *giveFirstWord(string wordtoLook);
+    /* giveFirstWord(string wordtoLook):
+     * takes string wordtoLook, if there is a child
+     * Word of the root containing wordtoLook
+     * word in it, then returns the locatin of
+     * the child Word, else returns NULL.
+     * */
+    Word *giveFirstWord(string wordtoLook);
 
-		Word *addWord(string word);
+    Word *addWord(string word);
 
-		/* addInstruction(vector<string> stringSeq):
-		 * takes a vector of stirng representing sequence
-		 * of words, adds it to the isntructure structure
-		 * (which is actually a class), and returns success
-		 * code(int) if succeeded(i.e. it was able to add
-		 * new bitstring in the structure), else returns 0.
-		 * */
-		int addInstruction(vector<string> stringSeq);
+    /* addInstruction(vector<string> stringSeq):
+     * takes a vector of stirng representing sequence
+     * of words, adds it to the isntructure structure
+     * (which is actually a class), and returns success
+     * code(int) if succeeded(i.e. it was able to add
+     * new bitstring in the structure), else returns 0.
+     * */
+    int addInstruction(vector<string> stringSeq);
 
-		//TEST FUNCTION
-		void testprintInst();
+    //TEST FUNCTION
+    void testprintInst();
 
-		/* checkInstruction(vector<string> stringSeq):
-		 * takes vector of string, and checks if there
-		 * exist a path from root to leaf
-		 * that matches the sequence of strings.
-		 * */
-		string checkInstruction(vector<string> stringSeq);
+    /* checkInstruction(vector<string> stringSeq):
+     * takes vector of string, and checks if there
+     * exist a path from root to leaf
+     * that matches the sequence of strings.
+     * */
+    string checkInstruction(vector<string> stringSeq);
 };
 
 #endif
