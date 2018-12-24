@@ -1,4 +1,3 @@
-
 #include "word_utility.h"
 
 #include <cctype>

@@ -8,153 +8,152 @@
 using namespace std;
 
 Word::Word(string wordofNode){
-	word = wordofNode;
+  word = wordofNode;
 }
 
 void Word::printWord(){
-	cout << this->word;
+  cout << this->word;
 }
 
 int Word::addNextWord(string childWord){
-	if (nextWordMap.find(childWord) == nextWordMap.end()){
-			Word *nextWordNode = new Word(childWord);
-   		nextWordMap.insert(make_pair(childWord, nextWordNode));
-	 		return 1;
-		}
-	else return 0;
+  if (nextWordMap.find(childWord) == nextWordMap.end()){
+      Word *nextWordNode = new Word(childWord);
+      nextWordMap.insert(make_pair(childWord, nextWordNode));
+      return 1;
+    }
+  else return 0;
 }
 
 int Word::addNextWord(string MapChildWord, string childWord){
-	if (nextWordMap.find(MapChildWord) == nextWordMap.end()){
-		Word *nextWordNode = new Word(childWord);
-       		nextWordMap.insert(make_pair(MapChildWord, nextWordNode));
-	 	return 1;
-	}
-	else return 0;
+  if (nextWordMap.find(MapChildWord) == nextWordMap.end()){
+    Word *nextWordNode = new Word(childWord);
+          nextWordMap.insert(make_pair(MapChildWord, nextWordNode));
+    return 1;
+  }
+  else return 0;
 }
 
 Word* Word::giveNextWord(string wordtoLook){
-	auto childWorditr = nextWordMap.find(wordtoLook);
-	if (childWorditr != nextWordMap.end())
-		return childWorditr->second;
-	else return NULL;
+  auto childWorditr = nextWordMap.find(wordtoLook);
+  if (childWorditr != nextWordMap.end())
+    return childWorditr->second;
+  else return NULL;
 }
 
 Word* Word::addWord(string wordtoAdd){
-	this->addNextWord(wordtoAdd);
-	return this->giveNextWord(wordtoAdd);
+  this->addNextWord(wordtoAdd);
+  return this->giveNextWord(wordtoAdd);
 }
 
 bool Word::ischildPresent(string wordtoLook){
-	auto nextWordptr = nextWordMap.find(wordtoLook);
-	return nextWordptr != nextWordMap.end();
+  auto nextWordptr = nextWordMap.find(wordtoLook);
+  return nextWordptr != nextWordMap.end();
 }
 
 string Word::giveWord(){
-	return word;
+  return word;
 }
 
 
 Word* Word::look4word (string word, map<string, string> &varMap){
-	Word *nextNode = NULL;
+  Word *nextNode = NULL;
 
-	for (auto& nextWord : nextWordMap){
-		map <string, string> temp;
+  for (auto& nextWord : nextWordMap){
+    map <string, string> temp;
 
-		if (wordMatch (nextWord.first, word, temp)){
-			nextNode = nextWord.second;
+    if (wordMatch (nextWord.first, word, temp)){
+      nextNode = nextWord.second;
 
-			varMap.insert (temp.begin(), temp.end());
- 		  break;
-		}
-	}
-	return nextNode;
+      varMap.insert (temp.begin(), temp.end());
+      break;
+    }
+  }
+  return nextNode;
 }
 
 bool Word::isitEnd(){
-	if(this->nextWordMap.begin() == this->nextWordMap.end())
-		return 1;
+  if(this->nextWordMap.begin() == this->nextWordMap.end())
+    return 1;
 
-	return 0;
+  return 0;
 }
 
 int instructure::addFirstWord(string firstWord){
-	auto ptrtoFirstWord = new Word(firstWord);
+  auto ptrtoFirstWord = new Word(firstWord);
 
-	if (firstWordMap.find(firstWord) == firstWordMap.end()){
-		firstWordMap.insert(make_pair(firstWord, ptrtoFirstWord));
-		return 1;
-	}
-	else return 0;
+  if (firstWordMap.find(firstWord) == firstWordMap.end()){
+    firstWordMap.insert(make_pair(firstWord, ptrtoFirstWord));
+    return 1;
+  }
+  else return 0;
 }
 
 Word* instructure::giveFirstWord(string wordtoLook){
-	auto nextWordItr = firstWordMap.find(wordtoLook);
-	if (nextWordItr != firstWordMap.end())
-		return nextWordItr->second;
+  auto nextWordItr = firstWordMap.find(wordtoLook);
+  if (nextWordItr != firstWordMap.end())
+    return nextWordItr->second;
   else return NULL;
 }
 
 
 Word* instructure::addWord(string word){
-	this->addFirstWord(word);
-	return this->giveFirstWord(word);
+  this->addFirstWord(word);
+  return this->giveFirstWord(word);
 }
 
 int instructure::addInstruction(vector<string> stringSeq){
-	if(stringSeq.size() <= 1){
-		cout << "ERROR:" << endl;
-		cout << "string sequence too short" << endl;
-		return 0;
+  if(stringSeq.size() <= 1){
+    cout << "ERROR:" << endl;
+    cout << "string sequence too short" << endl;
+    return 0;
   }
 
-	Word *wordIter = this->addWord(stringSeq[0]);
+  Word *wordIter = this->addWord(stringSeq[0]);
 
-	size_t index;
-	for (index = 1; index < stringSeq.size() - 2; index++){
-		wordIter = wordIter->addWord(stringSeq[index]);
-	}
+  size_t index;
+  for (index = 1; index < stringSeq.size() - 2; index++){
+    wordIter = wordIter->addWord(stringSeq[index]);
+  }
 
-	wordIter->addNextWord("BitString", stringSeq[index + 1]);
+  wordIter->addNextWord("BitString", stringSeq[index + 1]);
 
-	return 1;
+  return 1;
 }
 
 
 string instructure::checkInstruction(vector<string> stringSeq){
-	if (!stringSeq.size()){
-		cout << "Invalid instruction" << endl;
-		return "EII";
-	}
+  if (!stringSeq.size()){
+    cout << "Invalid instruction" << endl;
+    return "EII";
+  }
 
-	Word *nodeBeingMatched = NULL;
-	map<string, string> varMap;
+  Word *nodeBeingMatched = NULL;
+  map<string, string> varMap;
 
-	for (auto nextWord : firstWordMap){
-	   map <string, string> temp;
+  for (auto nextWord : firstWordMap){
+     map <string, string> temp;
 
-		if (wordMatch (nextWord.first, stringSeq[0], temp)){
-			nodeBeingMatched = nextWord.second;
-			
-			varMap.insert (temp.begin(), temp.end());
-			break;
- 	  }
-	}
+    if (wordMatch (nextWord.first, stringSeq[0], temp)){
+      nodeBeingMatched = nextWord.second;
+      
+      varMap.insert (temp.begin(), temp.end());
+      break;
+    }
+  }
 
-	for (unsigned i = 1; i < stringSeq.size(); i++){
-		if (!nodeBeingMatched)
-			break;
+  for (unsigned i = 1; i < stringSeq.size(); i++){
+    if (!nodeBeingMatched)
+      break;
 
-		cout << nodeBeingMatched->giveWord() << " ";
-		nodeBeingMatched = nodeBeingMatched->look4word(stringSeq[i], varMap);
-	}
+    cout << nodeBeingMatched->giveWord() << " ";
+    nodeBeingMatched = nodeBeingMatched->look4word(stringSeq[i], varMap);
+  }
 
-	if ((!nodeBeingMatched) || (nodeBeingMatched &&
-			!(nodeBeingMatched = nodeBeingMatched->look4word("BitString", varMap)))){
-				cout << "Invalid instruction" << endl;
-				return "EII";
-	}
+  if ((!nodeBeingMatched) || (nodeBeingMatched &&
+      !(nodeBeingMatched = nodeBeingMatched->look4word("BitString", varMap)))){
+        cout << "Invalid instruction" << endl;
+        return "EII";
+  }
 
-	return generateBitString (nodeBeingMatched->giveWord(), varMap);
+  return generateBitString (nodeBeingMatched->giveWord(), varMap);
 }
-
