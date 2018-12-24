@@ -43,12 +43,12 @@ pair<string, string> varMatch(string confWord, unsigned &i,
   size_t instWordSize = instWord.size();
 
   if ((conf_string = checkVarString (confWord, i)).empty()){
-    cout << "ERROR:confWord is not a varString" << endl;
+    cerr << "ERROR:confWord is not a varString" << endl;
     return error_return_value;
   }
 
   if (!isdigit(instWord[instWord_index])){
-    cout << "ERROR: instWord doesn't have any digit" << endl;
+    cerr << "ERROR: instWord doesn't have any digit" << endl;
     return error_return_value;
   }
 
@@ -62,7 +62,7 @@ pair<string, string> varMatch(string confWord, unsigned &i,
     if (confWord[i + 1] == ENCLOSING_SYMBOL_LEFT) //Will make below while loop
       virtInstSize = instWord_index;    //check and push only one char(digit)
                 //else checks till its size
-                
+
     while (instWord_index < virtInstSize && isdigit(instWord[instWord_index])){
       matched_string.push_back(instWord[instWord_index]);
       instWord_index++;
@@ -80,7 +80,7 @@ pair<string, string> varMatch(string confWord, unsigned &i,
         matched_string.append(tempMatch);
         break;
       }
-      if(!isdigit(instWord[instWord_index])){ 
+      if(!isdigit(instWord[instWord_index])){
         matched_string.clear();
         break;
       }
@@ -180,7 +180,7 @@ int lookString4Digit (string TheString, unsigned &index){
   }
 
   return 0;
-} 
+}
 
 map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringFormat){
   size_t strSize = bitStringFormat.size();
@@ -189,7 +189,7 @@ map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringForm
   for (unsigned index = 0; index < strSize; index++){
     bool goodGoing = 1;
     size_t processedNumSize;
-    
+
     goodGoing = lookString4 ('[', bitStringFormat, index);
     goodGoing &= lookString4Digit (bitStringFormat, ++index);
 
@@ -204,7 +204,7 @@ map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringForm
 
     goodGoing = lookString4 ('-', bitStringFormat, index);
     goodGoing &= lookString4Digit (bitStringFormat, ++index);
-    
+
     if (!goodGoing){
       strData.clear();
       break;
@@ -218,7 +218,7 @@ map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringForm
 
     goodGoing = lookString4 (']', bitStringFormat, index);
     goodGoing &= lookString4 (':', bitStringFormat, ++index);
-    
+
     if (!goodGoing){
       strData.clear();
       break;
@@ -226,7 +226,7 @@ map<pair<unsigned, unsigned>, string> parseBitStringFormat (string bitStringForm
 
     while (isspace(bitStringFormat[++index]))
       continue;
-    
+
     string rangeValue;
     while (index < strSize && bitStringFormat[index] != ' ' && bitStringFormat[index] != '|')
       rangeValue.push_back (bitStringFormat[index++]);
@@ -278,14 +278,14 @@ inline string stripBraces (string bitString){
 
 
 /* string resizeBitString (string bitString, size_t newSize):
- * converts a bitstring of different size into a string of 
+ * converts a bitstring of different size into a string of
  * particular size by either truncating the string or by
  * adding string of 0s at the beginning of the string.
  * returns same string if the new size is same  as old size.
  * */
 string resizeBitString (string bitString, size_t newSize){
   size_t strSize = bitString.size();
-  
+
   if (strSize > newSize){
     bitString = bitString.substr (strSize - newSize);
   }
@@ -326,7 +326,7 @@ string generateBitString (string bitStringFormat, map<string, string> varMap){
     }
 
 
-    string2copy = resizeBitString (string2copy, 
+    string2copy = resizeBitString (string2copy,
         cell.first.second - cell.first.first + 1);
 
     for (unsigned index = cell.first.first, i2 = 0;

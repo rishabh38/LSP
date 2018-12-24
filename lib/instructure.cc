@@ -103,8 +103,8 @@ Word* instructure::addWord(string word){
 
 int instructure::addInstruction(vector<string> stringSeq){
   if(stringSeq.size() <= 1){
-    cout << "ERROR:" << endl;
-    cout << "string sequence too short" << endl;
+    cerr << "ERROR:" << endl;
+    cerr << "string sequence too short" << endl;
     return 0;
   }
 
@@ -123,7 +123,7 @@ int instructure::addInstruction(vector<string> stringSeq){
 
 string instructure::checkInstruction(vector<string> stringSeq){
   if (!stringSeq.size()){
-    cout << "Invalid instruction" << endl;
+    cerr << "Invalid instruction" << endl;
     return "EII";
   }
 
@@ -151,7 +151,7 @@ string instructure::checkInstruction(vector<string> stringSeq){
 
   if ((!nodeBeingMatched) || (nodeBeingMatched &&
       !(nodeBeingMatched = nodeBeingMatched->look4word("BitString", varMap)))){
-        cout << "Invalid instruction" << endl;
+        cerr << "Invalid instruction" << endl;
         return "EII";
   }
 
