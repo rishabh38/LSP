@@ -35,7 +35,8 @@ inline void dMap (map<string, string> &map2modify){
 bool wordMatch (string confWord, string instWord,
           map<string, string> &inMap);
 
-//Start working on it
+bool checkBitStringFormat (string bitStringFormat);
+
 string generateBitString (string bitStringFormat,
                     map<string, string> varMap);
 

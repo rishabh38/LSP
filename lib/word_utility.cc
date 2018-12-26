@@ -173,7 +173,7 @@ int lookString4Digit (string TheString, unsigned &index){
 
   while (index < strSize){
     if (TheString[index] - '0' >= 0 && TheString[index] - '0' <= 9)
-           return 1;
+      return 1;
     else if (!isspace(TheString[index]))
       break;
     index++;
@@ -338,4 +338,66 @@ string generateBitString (string bitStringFormat, map<string, string> varMap){
   }
 
   return icode;
+}
+
+bool checkBitStringFormat (string bitStringFormat){
+  bool goodGoing = 1;
+  size_t strSize = bitStringFormat.size();
+  for (unsigned index = 0; index < strSize; index++){
+    size_t processedNumSize;
+
+    goodGoing = lookString4 ('[', bitStringFormat, index);
+    goodGoing &= lookString4Digit (bitStringFormat, ++index);
+
+    if (!goodGoing){
+      break;
+    }
+
+    stoull (bitStringFormat.substr (index), &processedNumSize);
+    index += processedNumSize;
+
+    goodGoing = lookString4 ('-', bitStringFormat, index);
+    goodGoing &= lookString4Digit (bitStringFormat, ++index);
+
+    if (!goodGoing){
+      break;
+    }
+
+    stoull (bitStringFormat.substr (index), &processedNumSize);
+    index += processedNumSize;
+
+    goodGoing = lookString4 (']', bitStringFormat, index);
+    goodGoing &= lookString4 (':', bitStringFormat, ++index);
+
+    if (!goodGoing){
+      break;
+    }
+
+    while (isspace(bitStringFormat[++index])){
+      continue;
+    }
+
+    unsigned oldIndex = index;
+    while (index < strSize && bitStringFormat[index] != ' ' && bitStringFormat[index] != '|')
+      index++;
+
+    if (oldIndex == index){
+      goodGoing = 0;
+      break;
+    }
+
+    oldIndex = index;
+    int codeforLook = !lookString4 ('|', bitStringFormat, index);
+    codeforLook = codeforLook && !lookString4 ('\n', bitStringFormat, index = oldIndex);
+    if (codeforLook && index == bitStringFormat.size()){
+      break;
+    }
+    else if (codeforLook && index < bitStringFormat.size()){
+      goodGoing = 0;
+      break;
+    }
+
+  }
+
+  return goodGoing;
 }
