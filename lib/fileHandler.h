@@ -5,6 +5,11 @@
 
 using namespace std;
 
+/* bool doesFileExist (string fileName):
+ * takes a string denoting name of the file.
+ * returns true if the file with the given name
+ * exist, else returns false.
+ */
 inline bool doesFileExist (string fileName){
   ifstream file (fileName);
   if (!file.is_open ())

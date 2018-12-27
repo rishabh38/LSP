@@ -17,20 +17,6 @@ using namespace std;
  *
  * Operations:
  * Constructor: takes a string to store in its string element.
- *
- * addNextWord(string childWord):
- * takes a string and creates a new node with word as childWord
- * and returns location of the next node Word.
- *
- * giveNextWord(string wordtoLook):
- * takes a string and returns the location of the child of the node
- * if present else NULL.
- *
- * ischildPresent(string wordtoLook):
- * takes a string and returns TRUE if given word is present as this nodes
- * child, else returns FALSE.
- *
- *
  * */
 class Word{
   private:
@@ -40,28 +26,54 @@ class Word{
   public:
     Word(string wordofNode);
 
-    //TEST FUNCTION
-    void printWord();
-
+/* addNextWord(string childWord):
+ * takes a string and creates a new node with word as childWord
+ * and returns location of the next node Word.
+ * */
     int addNextWord(string childWord);
 
+/* addNextWord (string MapChildWord, string childWord):
+ * takes two string parameters, writes MapChildWord(string) to
+ * the map string-*Word and write childWord(string) in the
+ * Word being pointed to by the mapped "Word pointer".
+ * returns 1 if successful else returns 0.
+ * */
     int addNextWord(string MapChildWord, string childWord);
 
+/* giveNextWord(string wordtoLook):
+ * takes a string and returns the location of the child of the node
+ * if present else NULL.
+ * */
     Word *giveNextWord(string wordtoLook);
 
+/* Word *addWord (string wordtoAdd):
+ * takes a word(string), creates a child Word object with the same word
+ * if child doesn't exist with that Word, else doesn't adds the
+ * child Word.
+ * returns pointer to the child Word mapped to that (string)word
+ * either newly created or pre-existing.
+ * */
     Word *addWord(string wordtoAdd);
 
+/* ischildPresent(string wordtoLook):
+ * takes a string and returns TRUE if given word is present as this nodes
+ * child, else returns FALSE.
+ * */
     bool ischildPresent(string wordtoLook);
 
+/* string giveWord():
+ * returns the word associated with the current object of Word.
+ * */
     string giveWord();
 
+ /* Word *look4word (string word, map<string, string> &varMap):
+  * takes string(word), string-string map (varMap), find a
+  * matching(based on prefixed rules) string in the list of
+  * strings associated with string-Word* map of the current node
+  * if matching string is found, returns mapped "pointer to word".
+  * */
     Word *look4word (string word, map<string, string> &varMap);
 
-    //TEST FUNCTION
-    bool isitEnd();
-
-    //TEST FUNCTION
-    Word *chooseChild();
 };
 
 
@@ -85,6 +97,13 @@ class instructure{
      * */
     Word *giveFirstWord(string wordtoLook);
 
+   /* Word *addWord (string wordtoAdd):
+    * takes a word(string), creates a child Word object with the same word
+    * if child doesn't exist with that Word, else doesn't adds the
+    * child Word.
+    * returns pointer to the child Word mapped to that (string)word
+    * either newly created or pre-existing.
+    * */
     Word *addWord(string word);
 
     /* addInstruction(vector<string> stringSeq):
@@ -95,9 +114,6 @@ class instructure{
      * new bitstring in the structure), else returns 0.
      * */
     int addInstruction(vector<string> stringSeq);
-
-    //TEST FUNCTION
-    void testprintInst();
 
     /* checkInstruction(vector<string> stringSeq):
      * takes vector of string, and checks if there

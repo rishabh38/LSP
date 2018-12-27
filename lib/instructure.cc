@@ -12,10 +12,6 @@ Word::Word(string wordofNode){
   word = wordofNode;
 }
 
-void Word::printWord(){
-  cout << this->word;
-}
-
 int Word::addNextWord(string childWord){
   if (nextWordMap.find(childWord) == nextWordMap.end()){
       Word *nextWordNode = new Word(childWord);
@@ -72,12 +68,6 @@ Word* Word::look4word (string word, map<string, string> &varMap){
   return nextNode;
 }
 
-bool Word::isitEnd(){
-  if(this->nextWordMap.begin() == this->nextWordMap.end())
-    return 1;
-
-  return 0;
-}
 
 int instructure::addFirstWord(string firstWord){
   auto ptrtoFirstWord = new Word(firstWord);
