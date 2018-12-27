@@ -145,5 +145,11 @@ string instructure::checkInstruction(vector<string> stringSeq){
         return "EII";
   }
 
-  return generateBitString (nodeBeingMatched->giveWord(), varMap);
+
+  string bitString = generateBitString (nodeBeingMatched->giveWord(), varMap);
+  if (!bitString.size()){
+    cerr << "error: unable to generate bitString" << endl;
+  }
+
+  return bitString;
 }
