@@ -34,7 +34,8 @@ bool checkConfigInstruction (string configInstruction){
 string getBitString (string configInstruction){
   string bitString;
   if (!checkConfigInstruction (configInstruction)){
-    cerr << "error: configInstruction is not valid" << endl;
+    cerr << "error: configInstruction \"" << configInstruction
+         << "\"is not valid" << endl;
     return  bitString;
   }
 
@@ -115,29 +116,33 @@ bool addConfiguration (string fileName){
   return true;
 }
 
-bool generateOpCode (string instFileName){
+bool generateOpCode (string instFileName, string opCodeFile){
   if (!doesFileExist (instFileName)){
     return false;
   }
-
   ifstream instStream  = openInFile (instFileName);
+  ofstream opcodeStream (opCodeFile);
+
   string instruction;
-  getline (instStream, instruction, ';');
-  vector<string> temp = stringtostringvec (instruction);
-  cout << "generated opcode" << endl;
-  cout << instructionRule.checkInstruction (temp) << endl;
+  while (getline (instStream, instruction) && !instStream.eof()){
+    vector<string> temp = stringtostringvec (instruction);
+    opcodeStream << instructionRule.checkInstruction (temp) << endl;
+  }
 
   return true;
 }
 
 int main(int argc, char* argv[]){
-  if (argc < 3){
-    cerr << "usage: opcgen <configuration_filename> <instruction_filename> <output_filename>" << endl;
+  if (argc < 4){
+    cerr << "usage: opcgen <configuration_filename>"
+         << " <instruction_filename> <output_filename>" << endl;
     return 1;
   }
 
   string confFileName = argv[1];
   string instFileName = argv[2];
+  string opcodeFileName = argv[3];
+
   addConfiguration (confFileName);
-  generateOpCode (instFileName);
+  generateOpCode (instFileName, opcodeFileName);
 }
