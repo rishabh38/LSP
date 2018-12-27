@@ -403,9 +403,6 @@ bool checkBitStringFormat (string bitStringFormat){
       break;
     }
 
-    oldIndex = index;
-
-
     vector <char> expectedChars = {'|', '\n'};
     int codeforLook = lookString4 (expectedChars, bitStringFormat, index);
     if (!codeforLook && index == bitStringFormat.size()){
