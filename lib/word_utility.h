@@ -4,6 +4,7 @@
 #include <iostream>  //for testing (maybe removed later)
 #include <map>
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -39,5 +40,7 @@ bool checkBitStringFormat (string bitStringFormat);
 
 string generateBitString (string bitStringFormat,
                     map<string, string> varMap);
+
+vector<string> stringtostringvec (string theString);
 
 #endif

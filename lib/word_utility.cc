@@ -417,3 +417,28 @@ bool checkBitStringFormat (string bitStringFormat){
 
   return goodGoing;
 }
+
+/* vector <string> stringtostringvec (string theString):
+ * takes space separated string i.e. theString,
+ * puts space separated strings into a vector of strings
+ * returns the generated vector of string.
+ */
+vector<string> stringtostringvec (string theString){
+  vector<string> stringVector;
+  string temp;
+  for (auto character : theString){
+    if (isspace(character)){
+      if (temp.size() > 0){
+        stringVector.push_back (temp);
+      }
+      temp.clear();
+    }
+    else temp.push_back(character);
+  }
+
+  if (temp.size() > 0){
+    stringVector.push_back (temp);
+  }
+
+  return stringVector;
+}
