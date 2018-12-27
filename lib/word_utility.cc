@@ -159,7 +159,23 @@ int lookString4 (char validChar, string TheString, unsigned &index){
   while (index < strSize){
     if (TheString[index] == validChar)
       return 1;
-    else if (!isspace(TheString[index]))
+    else if (TheString[index] != ' ' && TheString[index] != '\t')
+      break;
+
+    index++;
+  }
+
+  return 0;
+}
+
+int lookString4 (vector <char> validChars, string theString, unsigned &index){
+  size_t strSize = theString.size();
+
+  while (index <strSize){
+    for (auto validChar : validChars){
+      if (validChar == theString[index])  return 1;
+    }
+    if (theString[index] != ' ' && theString[index] != '\t')
       break;
 
     index++;
@@ -174,7 +190,7 @@ int lookString4Digit (string TheString, unsigned &index){
   while (index < strSize){
     if (TheString[index] - '0' >= 0 && TheString[index] - '0' <= 9)
       return 1;
-    else if (!isspace(TheString[index]))
+    else if (TheString[index] != ' ' && TheString[index] != '\t')
       break;
     index++;
   }
@@ -378,7 +394,8 @@ bool checkBitStringFormat (string bitStringFormat){
     }
 
     unsigned oldIndex = index;
-    while (index < strSize && bitStringFormat[index] != ' ' && bitStringFormat[index] != '|')
+    while (index < strSize && bitStringFormat[index] != ' ' &&
+           bitStringFormat[index] != '|' && bitStringFormat[index] != '\n')
       index++;
 
     if (oldIndex == index){
@@ -387,12 +404,14 @@ bool checkBitStringFormat (string bitStringFormat){
     }
 
     oldIndex = index;
-    int codeforLook = !lookString4 ('|', bitStringFormat, index);
-    codeforLook = codeforLook && !lookString4 ('\n', bitStringFormat, index = oldIndex);
-    if (codeforLook && index == bitStringFormat.size()){
+
+
+    vector <char> expectedChars = {'|', '\n'};
+    int codeforLook = lookString4 (expectedChars, bitStringFormat, index);
+    if (!codeforLook && index == bitStringFormat.size()){
       break;
     }
-    else if (codeforLook && index < bitStringFormat.size()){
+    else if (!codeforLook && index < bitStringFormat.size()){
       goodGoing = 0;
       break;
     }
