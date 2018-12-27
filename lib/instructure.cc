@@ -146,7 +146,6 @@ string instructure::checkInstruction(vector<string> stringSeq){
     if (!nodeBeingMatched)
       break;
 
-    cout << nodeBeingMatched->giveWord() << " ";
     nodeBeingMatched = nodeBeingMatched->look4word(stringSeq[i], varMap);
   }
 
