@@ -1,4 +1,5 @@
 #include "instructure.h"
+#include "word_utility.h"
 
 #include <iostream>
 #include <map>
@@ -135,7 +136,7 @@ string instructure::checkInstruction(vector<string> stringSeq){
 
     if (wordMatch (nextWord.first, stringSeq[0], temp)){
       nodeBeingMatched = nextWord.second;
-      
+
       varMap.insert (temp.begin(), temp.end());
       break;
     }

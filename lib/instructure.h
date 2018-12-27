@@ -2,7 +2,6 @@
 #define LSP_LIB_INSTRUCTURE_H
 
 
-#include "word_utility.h"
 
 #include <iostream>
 #include <map>
