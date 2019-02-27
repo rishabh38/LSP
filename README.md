@@ -19,4 +19,4 @@ Generate binary
 ```
 
 ### More info?
-Please have a go at https://github.com/rishabh38/OpGen/docs/
+Please have a go at [docs](https://github.com/rishabh38/OpGen/docs)
