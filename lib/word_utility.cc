@@ -35,7 +35,8 @@ string checkVarString (string theString, unsigned &index){
 
 pair<string, string> varMatch(string confWord, unsigned &i,
     string instWord, unsigned &instWord_index){
-  pair<string, string> error_return_value = make_pair(ENCLOSING_SYMBOL,ENCLOSING_SYMBOL);
+  pair<string, string> error_return_value = make_pair(ENCLOSING_SYMBOL, 
+                                                      ENCLOSING_SYMBOL);
 
   string conf_string;
   string matched_string;
@@ -131,15 +132,15 @@ bool wordMatch (string confWord, string instWord, map<string, string> &inMap){
       goodGoing = false;
       break;
     }
-    if (confWord[iA] != '{' && confWord[iA] != instWord[iB]){
+    if (confWord[iA] != ENCLOSING_SYMBOL_LEFT && confWord[iA] != instWord[iB]){
       dMap (varMap);
       goodGoing = false;
       break;
     }
-    else if (confWord[iA] == '{'){
+    else if (confWord[iA] == ENCLOSING_SYMBOL_LEFT){
       pair<string, string> tempPair = varMatch (confWord, iA, instWord, iB);
 
-      if (tempPair == make_pair ((string)"{}", (string)"{}")){
+      if (tempPair == make_pair (ENCLOSING_SYMBOL, ENCLOSING_SYMBOL)){
         dMap (varMap);
         goodGoing = false;
         break;
