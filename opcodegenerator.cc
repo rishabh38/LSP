@@ -79,23 +79,16 @@ string makeInstructionNice (string configurationString){
 
 
 bool writetoInstructure (ifstream &configStream){
-
-  //test line
-  ofstream outfile ("output");
-
   string configInstruction;
   while (getline (configStream, configInstruction, ';') &&
          !configStream.eof ()){
     if (!checkConfigInstruction (configInstruction)){
-	    cerr << "test point 1" << endl;
       return false;
     }
 
     configInstruction = makeInstructionNice (configInstruction);
     vector<string> temp = configInstruction2VecString (configInstruction);
     instructionRule.addInstruction (temp);
-
-    outfile << configInstruction << endl;
   }
 
   return true;
